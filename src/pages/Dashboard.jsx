@@ -1,10 +1,12 @@
 import { Link, Navigate, NavLink } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const { user, logOut } = useAuthContext();
   const handleLogout = async () => {
     await logOut();
+    toast.success("Logout Successful");
     Navigate("/login");
   };
 
@@ -23,7 +25,7 @@ export default function Dashboard() {
             </h1>
             <p className="mt-2 text-sm text-[#e5e7eb]/80">
               {user
-                ? `Hi ${user?.displayName}`
+                ? `Hi ${user?.displayName || "User"}`
                 : "A clean entry point to navigate authentication pages."}
             </p>
           </div>
@@ -112,7 +114,10 @@ export default function Dashboard() {
             Firebase Authentication System • React + Firebase
           </p>
 
-          <Link to="/" className="text-xs text-[#a7f3d0] hover:underline font-bold">
+          <Link
+            to="/"
+            className="text-xs text-[#a7f3d0] hover:underline font-bold"
+          >
             Back to Home
           </Link>
         </div>

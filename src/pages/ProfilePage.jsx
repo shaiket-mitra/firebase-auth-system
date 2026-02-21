@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const { user, logOut } = useAuthContext();
@@ -8,6 +9,7 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     await logOut();
+    toast.success("Logout Successful")
     navigate("/login");
   };
 

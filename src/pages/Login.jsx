@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
+import toast from "react-hot-toast";
 
 export default function Login() {
-  const { signIn, googleSignIn, githubSignIn } = useAuthContext();
+  const { user, signIn, googleSignIn, githubSignIn } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
 
+  if (user) navigate("/");
+
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const from = location.state?.from || "/";
 
@@ -20,10 +24,15 @@ export default function Login() {
     const password = form.password.value;
 
     try {
+      setLoading(true);
       await signIn(email, password);
+      toast.success("Login Successful");
       navigate(from, { replace: true });
     } catch (error) {
-      setErr(error.message);
+      setErr("Email or Password is incorrect !");
+      // toast.error("Email or Password is incorrect!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,6 +40,7 @@ export default function Login() {
     setErr("");
     try {
       await googleSignIn();
+      toast.success("Login Successful");
       navigate(from, { replace: true });
     } catch (error) {
       setErr(error.message);
@@ -41,6 +51,7 @@ export default function Login() {
     setErr("");
     try {
       await githubSignIn();
+      toast.success("Login Successful");
       navigate(from, { replace: true });
     } catch (error) {
       setErr(error.message);
@@ -74,8 +85,12 @@ export default function Login() {
 
           {err && <div className="error">{err}</div>}
 
-          <button className="btn" type="submit">
-            Login
+          <button disabled={loading} className="btn" type="submit">
+            {loading ? (
+              <span className="loading loading-spinner text-neutral"></span>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 

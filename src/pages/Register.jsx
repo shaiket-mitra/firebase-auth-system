@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
+import toast from "react-hot-toast";
 
 export default function Register() {
-  const { createUser } = useAuthContext();
+  const { user, createUser } = useAuthContext();
   const navigate = useNavigate();
+
+  if (user) navigate("/");
 
   const [err, setErr] = useState("");
   const [ok, setOk] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -25,11 +29,15 @@ export default function Register() {
     }
 
     try {
+      setLoading(true);
       await createUser(email, password, name);
       setOk("Account created successfully!");
+      toast.success("Account created successfully");
       navigate("/");
     } catch (error) {
       setErr(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,8 +72,12 @@ export default function Register() {
           {err && <div className="error">{err}</div>}
           {ok && <div className="success">{ok}</div>}
 
-          <button className="btn" type="submit">
-            Register
+          <button disabled={loading} className="btn" type="submit">
+            {loading ? (
+              <span className="loading loading-spinner text-neutral"></span>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
         <div className="flex justify-between">

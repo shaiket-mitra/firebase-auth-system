@@ -1,10 +1,12 @@
 import { Navigate, NavLink } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
+import toast from "react-hot-toast";
 
 export default function HomePage() {
   const { user, logOut } = useAuthContext();
   const handleLogout = async () => {
     await logOut();
+    toast.success("Logout Successful");
     Navigate("/login");
   };
 
@@ -33,8 +35,8 @@ export default function HomePage() {
           <div className="p-4 rounded-2xl border border-white/15 bg-white/10">
             <h2 className="text-lg font-bold">Quick Actions</h2>
             <p className="mt-1 text-sm text-[#e5e7eb]/80">
-              Use the buttons to go to {user ? "Dashboard" : "Login or Register"}{" "}
-              page.
+              Use the buttons to go to{" "}
+              {user ? "Dashboard" : "Login or Register"} page.
             </p>
 
             <div className="mt-4 space-y-2 text-sm text-[#e5e7eb]/85">

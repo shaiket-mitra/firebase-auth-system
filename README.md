@@ -6,4 +6,4 @@
 
 [ Live url](https://capable-lokum-909fa1.netlify.app)
 
-[overview video link](https://youtu.be/JbTu9nLPPNI)
+[Overview video link](https://youtu.be/JbTu9nLPPNI)

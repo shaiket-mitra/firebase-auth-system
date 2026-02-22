@@ -1,13 +1,15 @@
-import { Navigate, NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useAuthContext } from "../hooks/hooks";
 import toast from "react-hot-toast";
 
 export default function HomePage() {
   const { user, logOut } = useAuthContext();
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
     await logOut();
     toast.success("Logout Successful");
-    Navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   return (

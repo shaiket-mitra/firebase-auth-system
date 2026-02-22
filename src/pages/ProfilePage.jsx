@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const { user, logOut } = useAuthContext();
-  console.log(user)
   const navigate = useNavigate();
 
   const handleLogout = async () => {
